@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>suYNap</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f6f8e0; /* Кремовий фон */
+            color: #3b4a37; /* Темно-зелений для тексту */
+        }
+
+        header {
+            background-color: #d3f8d0; /* Світло-зелений */
+            border-bottom: 2px solid #b5e3b2; /* Темніший зелений */
+            padding: 10px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5em;
+            font-weight: bold;
+            color: #4caf50; /* Зелений */
+        }
+
+        .nav {
+            display: flex;
+            gap: 20px;
+        }
+
+        .nav a {
+            text-decoration: none;
+            color: #3b4a37;
+            font-size: 1em;
+            transition: color 0.3s;
+        }
+
+        .nav a:hover {
+            color: #4caf50; /* Зелений при наведенні */
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 40px 20px;
+            background-color: #c8e6c9; /* Світло-зелений фон */
+            color: #2e7d32; /* Темно-зелений текст */
+        }
+
+        .welcome h1 {
+            margin-bottom: 10px;
+            font-size: 2em;
+        }
+
+        .welcome p {
+            margin-bottom: 20px;
+        }
+
+        .welcome button {
+            background-color: #dff0d8; /* Світло-зелений */
+            color: #4caf50;
+            border: none;
+            padding: 10px 20px;
+            font-size: 1em;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .welcome button:hover {
+            background-color: #f6f8e0; /* Кремовий при наведенні */
+            transform: scale(1.05);
+        }
+
+        .catalog {
+            padding: 20px;
+            text-align: center;
+        }
+
+        .catalog h2 {
+            margin-bottom: 20px;
+            font-size: 1.8em;
+            color: #4caf50;
+        }
+
+        .catalog-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            justify-content: center;
+        }
+
+        .catalog-item {
+            background-color: #ffffff; /* Білий фон для карток */
+            border: 2px solid #b5e3b2;
+            border-radius: 10px;
+            padding: 15px;
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .catalog-item:hover {
+            transform: scale(1.05);
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+        }
+
+        .catalog-item img {
+            width: 100%;
+            border-radius: 10px;
+            margin-bottom: 10px;
+        }
+
+        .catalog-item p {
+            font-size: 1em;
+            margin: 10px 0;
+        }
+
+        .catalog-item span {
+            display: block;
+            font-weight: bold;
+            color: #4caf50;
+            margin-top: 5px;
+        }
+
+        .catalog-item button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+            transition: transform 0.3s, background-color 0.3s;
+        }
+
+        .catalog-item button:hover {
+            background-color: #2e7d32; /* Темно-зелений */
+            transform: scale(1.05);
+        }
+
+        footer {
+            background-color: #3b4a37; /* Темно-зелений */
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            margin-top: 20px;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background-color: #ffffff;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+            z-index: 1000;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+
+        .modal input {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+        }
+
+        .modal button {
+            background-color: #4caf50;
+            color: #fff;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        .modal button:hover {
+            background-color: #2e7d32;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        .modal-overlay.active, .modal.active {
+            display: block;
+        }
+     .catalog-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+.catalog-item {
+    background-color: #fff;
+    border: 2px solid #ddd;
+    border-radius: 10px;
+    padding: 15px;
+    text-align: center;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.catalog-item img {
+    width: 100%;
+    border-radius: 10px;
+    margin-bottom: 10px;
+}
+
+.catalog-item h3 {
+    font-size: 1.1em;
+    margin: 10px 0;
+    color: #333;
+}
+
+.catalog-item p {
+    font-size: 1em;
+    font-weight: bold;
+    color: #4caf50;
+}
+
+.catalog-item:hover {
+    transform: scale(1.05);
+    box-shadow: 0 6px 15px rgba(0, 0, 0, 0.2);
+}
+
+
+    </style>
+    
+</head>
+<body>
+    <header>
+        <div class="logo">moyo.com</div>
+        <nav class="nav">
+            <a href="#">Головна</a>
+            <a href="#">Каталог</a>
+            <a href="#">Обнови</a>
+            <a href="#">Знижки</a>
+            <a href="#" id="open-modal">Реєстрація</a>
+        </nav>
+    </header>
+
+    <section class="welcome">
+        <h1>Вітаємо вас в moyo.com!</h1>
+        <p>Магазин б/у речей та техніки з кращою якістю та стилем</p>
+        <button>Переглянути зарекомендовані товари нижче!!</button>
+    </section>
+    <section class="catalog">
+    <h2>Спеціально для вас!</h2>
+    <div class="catalog-container">
+        <div class="catalog-item">
+            <img src="https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcQk-uXOUeXE9tZNaJA5x7mv5ARIsc3DRSefLSzUwu_5KYjD-OWYhkEB1650so_9VnwkggyqHcL9DdAARRuqo14PC63MsGBG9a9NRIbBDOnx9bdmQiMdwrf2BhjPivLeCUhKZow9c5Qi6QI&usqp=CAc" alt="Nike Air Max Plus">
+            <h3>Телефон Apple iPhone 14 Pro Max [б/в]</h3>
+            <p>15000грн</p>
+        </div>
+        <div class="catalog-item">
+            <img src="https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcT4nDTcvFu7LLjuRYv1GGDckFao8VlrymXuaV7ZqytT9vPmWdMRzcitWuoPpE_yR8Lbfj8gn9HtBXyEz5jLGg3-epsmAEeY0Ri4Wwp3zF0v3ZVAbahyXsb48WnhuBiBJYHS4TruzAssdw&usqp=CAc" alt="Зип-худи cp company">
+            <h3>Телефон Apple iPhone 13 [б/в]</h3>
+            <p>10000грн</p>
+        </div>
+        <div class="catalog-item">
+            <img src="https://cdn.comfy.ua/media/x/img3/2830351/laptop.png" alt="Худи Ellesse">
+            <h3>Ноутбук Ноутбук ігровий Lenovo LOQ 15IAX9I [б/в]</h3>
+            <p>2500 грн</p>
+        </div>
+        <div class="catalog-item">
+            <img src="https://i.citrus.world/imgcache/size_800/uploads/shop/2/d/2dd458a0c5b8f37cff1d03e15791be78.webp" alt="Свитшот Adidas 3-Stripes">
+            <h3>Планшет Apple iPad Pro 13 [б/в]</h3>
+            <p>5200 грн</p>
+        </div>
+        <div class="catalog-item">
+            <img src="https://yabloki.ua/media/cache/sylius_shop_product_original/3c/f2/ipad-10-9-2022-wi-fi-64gb-blue-mpq13-1.png.webp">
+            <h3>Планшет iPad 10.9 (2022)  [б/в]</h3>
+            <p>7500 грн</p>
+        </div>
+    </div>
+</section>
+
+
+    <section class="catalog">
+        <h2></h2>
+        <div class="catalog-container">
+            <!-- Картки товарів залишаються без змін -->
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 moyo.com Всі права захищені.
+            |Мейл:moyo123@gmail.com|
+        </p>
+    </footer>
+
+    <div class="modal-overlay"></div>
+    <div class="modal">
+        <h2>Реєстрація</h2>
+        <input type="text" placeholder="Ваше ім'я">
+        <input type="email" placeholder="Ваш email">
+        <input type="password" placeholder="Пароль">
+        <button>Зареєструватись</button>
+    </div>
+
+    <script>
+        const openModal = document.getElementById('open-modal');
+        const modal = document.querySelector('.modal');
+        const overlay = document.querySelector('.modal-overlay');
+
+        openModal.addEventListener('click', (e) => {
+            e.preventDefault();
+            modal.classList.add('active');
+            overlay.classList.add('active');
+        });
+
+        overlay.addEventListener('click', () => {
+            modal.classList.remove('active');
+            overlay.classList.remove('active');
+        });
+    </script>
+</body>
+</html>
